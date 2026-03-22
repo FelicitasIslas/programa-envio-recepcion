@@ -143,19 +143,16 @@ function App() {
       setUbicacion({ latitud: null, longitud: null });
       setImagenBase64('');
       await obtenerRegistros();
-
     } catch (err) {
       console.error('Error completo:', err);
       console.error('Respuesta del servidor:', err?.response?.data);
       console.error('Status:', err?.response?.status);
       console.error('Tamaño imagen:', imagenBase64?.length);
+      console.error('URL API usada:', import.meta.env.VITE_API_URL);
 
       setError(
-        err?.response?.data?.mensaje ||
-        err?.message ||
-        'Error al enviar datos'
+        `Error: ${err?.response?.status || ''} ${err?.response?.data?.mensaje || err?.message || 'Error al enviar datos'}`
       );
-
     } finally {
       setCargando(false);
     }
@@ -166,6 +163,10 @@ function App() {
       <h1>Programa de envío y recepción de datos</h1>
       <p className="subtitle">
         Captura información desde web o móvil y guárdala en MongoDB
+      </p>
+
+      <p style={{ fontSize: '12px', color: '#666', wordBreak: 'break-word' }}>
+        API: {import.meta.env.VITE_API_URL || 'NO DEFINIDA'}
       </p>
 
       <div className="card">
